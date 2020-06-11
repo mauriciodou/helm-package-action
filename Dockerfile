@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.10
 
 LABEL "name"="helm-package-action"
 LABEL "maintainer"="Markus Maga <markus@maga.se>"
@@ -15,8 +15,12 @@ LABEL "com.github.actions.color"="blue"
 ARG K8S_VERSION=v1.11.5
 ARG HELM_VERSION=v2.12.3
 ENV HELM_HOME=/usr/local/helm
+ENV APK_REPOSITORY_MAIN=https://registry.kroger.com/artifactory/alpine/v3.10/main/
+ENV APK_REPOSITORY_COMMUNITY=https://registry.kroger.com/artifactory/alpine/v3.10/community/
 
-RUN apk -v --update --no-cache add \
+RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
+    echo ${APK_REPOSITORY_COMMUNITY} >> /etc/apk/repositories && \
+    apk -v --update --no-cache add \
         ca-certificates \
         bash
 
