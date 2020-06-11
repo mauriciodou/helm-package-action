@@ -12,25 +12,20 @@ LABEL "com.github.actions.description"="Action for running helm package on helm 
 LABEL "com.github.actions.icon"="anchor"
 LABEL "com.github.actions.color"="blue"
 
-ARG K8S_VERSION=v1.11.5
-ARG HELM_VERSION=v2.12.3
+ARG K8S_VERSION=v1.16.9
+ARG HELM_VERSION=v3.2.3
 ENV HELM_HOME=/usr/local/helm
 ENV APK_REPOSITORY_MAIN=https://registry.kroger.com/artifactory/alpine/v3.10/main/
 ENV APK_REPOSITORY_COMMUNITY=https://registry.kroger.com/artifactory/alpine/v3.10/community/
+
+COPY deps /usr/local/bin/
 
 RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
     echo ${APK_REPOSITORY_COMMUNITY} >> /etc/apk/repositories && \
     apk -v --update --no-cache add \
         ca-certificates \
-        bash
-
-RUN wget -O /usr/local/bin/kubectl https://storage.googleapis.com/kubernetes-release/release/$K8S_VERSION/bin/linux/amd64/kubectl && \
-  chmod +x /usr/local/bin/kubectl
-
-RUN wget -q http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /usr/local/bin/helm && \
-  chmod +x /usr/local/bin/helm
-
-RUN helm init --client-only
+        bash && \
+    chmod +x /usr/local/bin/*
 
 COPY ./helm-package.sh /usr/bin/helm-package
 
