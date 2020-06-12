@@ -25,6 +25,7 @@ RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
     apk -v --update --no-cache add \
         ca-certificates \
         curl \
+        git \
         bash && \
     chmod +x /usr/local/bin/* && \
     helm plugin install https://github.com/chartmuseum/helm-push
