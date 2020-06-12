@@ -29,8 +29,6 @@ RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
         bash && \
     chmod +x /usr/local/bin/*
 
-RUN helm plugin install https://github.com/chartmuseum/helm-push.git
-
 COPY ./helm-package.sh /usr/bin/helm-package
 
 ENTRYPOINT ["helm-package"]
