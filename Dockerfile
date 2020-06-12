@@ -26,7 +26,8 @@ RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
         ca-certificates \
         curl \
         bash && \
-    chmod +x /usr/local/bin/*
+    chmod +x /usr/local/bin/* && \
+    helm plugin install https://github.com/chartmuseum/helm-push
 
 COPY ./helm-package.sh /usr/bin/helm-package
 

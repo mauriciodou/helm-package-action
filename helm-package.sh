@@ -25,6 +25,6 @@ fi
 chart=$(basename "$TARGET")
 echo "Publishing $chart from $TARGET"
 
-for package in $GITHUB_WORKSPACE/*.tgz; do curl --insecure -u$SVC_ACCOUNT:$SVC_ACCOUNT_PASSWORD -T $package https://artifactory.kroger.com/artifactory/helm/$(basename $package); done
+for package in $GITHUB_WORKSPACE/*.tgz; do curl --insecure -u$SVC_ACCOUNT:$SVC_ACCOUNT_PASSWORD -T $package $REPO/$(basename $package); done
 
 exit 0
