@@ -1,5 +1,4 @@
 #!/bin/bash
-SVC_ACCOUNT=SVCKPSDOCKP
 TARGET=$1
 HELM_REPO=$2
 
@@ -20,7 +19,7 @@ if [[ -f "$TARGET/Chart.yaml" ]]; then
 	echo "Packaging $chart from $TARGET"
 	# helm package "$TARGET"
 	helm plugin install https://github.com/chartmuseum/helm-push.git
-	helm push $TARGET/ --force $HELM_REPO --username=$SVC_ACCOUNT --password=$SVC_ACCOUNT_PASSWORD --insecure
+	helm push $TARGET/ --force $HELM_REPO --username=$HELM_USER --password=$HELM_PASSWORD --insecure
 fi
 
 exit 0
