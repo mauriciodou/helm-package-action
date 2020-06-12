@@ -24,6 +24,7 @@ RUN echo ${APK_REPOSITORY_MAIN} > /etc/apk/repositories && \
     echo ${APK_REPOSITORY_COMMUNITY} >> /etc/apk/repositories && \
     apk -v --update --no-cache add \
         ca-certificates \
+        curl \
         bash && \
     chmod +x /usr/local/bin/*
 

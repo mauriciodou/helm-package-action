@@ -1,4 +1,5 @@
 #!/bin/bash
+SVC_ACCOUNT=SVCKPSDOCKP
 TARGET=$1
 
 set -euo pipefail
@@ -25,5 +26,17 @@ for dirname in "$TARGET"/*/; do
 	echo "Packaging $chart from $dirname"
 	helm package "$dirname" || exit $?
 done
+
+# Publish
+REPO=$2
+if [[ -z "$REPO" ]]; then
+	echo "No repository specified to publish the chart"
+	exit 1
+fi
+
+chart=$(basename "$TARGET")
+echo "Publishing $chart from $TARGET"
+
+for package in $GITHUB_WORKSPACE/*.tgz; do curl --insecure -u$SVC_ACCOUNT:$SVC_ACCOUNT_PASSWORD -T $package https://artifactory.kroger.com/artifactory/helm/$(basename $package); done
 
 exit 0
