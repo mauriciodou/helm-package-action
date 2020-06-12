@@ -13,19 +13,7 @@ if [[ -f "$TARGET/Chart.yaml" ]]; then
 	chart=$(basename "$TARGET")
 	echo "Packaging $chart from $TARGET"
 	helm package "$TARGET"
-	exit $?
 fi
-
-for dirname in "$TARGET"/*/; do
-	if [ ! -e "$dirname/Chart.yaml" ]; then
-		echo "No charts found for $TARGET"
-		continue
-	fi
-
-	chart=$(basename "$dirname")
-	echo "Packaging $chart from $dirname"
-	helm package "$dirname" || exit $?
-done
 
 # Publish
 REPO=$2
