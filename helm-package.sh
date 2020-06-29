@@ -18,8 +18,14 @@ if [[ -f "$TARGET/Chart.yaml" ]]; then
 	chart=$(basename "$TARGET")
 	echo "Packaging $chart from $TARGET"
 	# helm package "$TARGET"
-	helm plugin remove push
-	helm plugin install https://github.com/chartmuseum/helm-push.git
+
+	if helm plugin list | awk '{print $1}' | grep -q push; then
+		helm plugin remove push
+		helm plugin install https://github.com/chartmuseum/helm-push.git
+	else
+		helm plugin install https://github.com/chartmuseum/helm-push.git
+	fi
+	
 	helm push $TARGET/ --force $HELM_REPO --username=$HELM_USER --password=$HELM_PASSWORD --insecure
 fi
 
